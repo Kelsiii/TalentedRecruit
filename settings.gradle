@@ -1,0 +1,4 @@
+rootProject.name = 'TalentedRecruit'
+include 'server'
+include 'web'
+

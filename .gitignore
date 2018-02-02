@@ -1,3 +1,9 @@
+.idea/
+.gradle/
+.DS_Store
+.editorconfig
+web/build/
+
 # Compiled class file
 *.class
 
