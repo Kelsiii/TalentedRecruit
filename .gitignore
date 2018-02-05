@@ -1,8 +1,8 @@
-.idea/
 .gradle/
 .DS_Store
 .editorconfig
 web/build/
+server/build/
 
 # Compiled class file
 *.class
@@ -15,6 +15,16 @@ web/build/
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
+
+
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+.idea/
 
 # Package Files #
 *.jar
