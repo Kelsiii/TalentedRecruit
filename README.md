@@ -24,6 +24,7 @@
     |   |-- build          // 构建输出目录
 
 ### 项目配置
+* node与vue的配置参考上面那篇博文
 * clone项目到本地
 * 导入Gradle项目：[《IntelliJ IDEA如何导入Gradle项目》](http://blog.csdn.net/wangdong5678999/article/details/70255451)
 * 在IDEA右侧找到Gradle的栏目，点击Refresh All Gradle Projects,下载依赖的jar
