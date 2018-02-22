@@ -6,6 +6,7 @@
 
 ## 项目搭建
 主要参考博文[《使用Gradle整合SpringBoot+Vue.js-开发调试与打包》](https://segmentfault.com/a/1190000008968295#articleHeader4)搭建项目
+
 目录结构：
 
     -- TalentedRecruit
