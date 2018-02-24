@@ -10,6 +10,7 @@ import 'element-ui/lib/theme-chalk/index.css'
 import 'element-ui/lib/theme-chalk/base.css'
 import CollapseTransition from 'element-ui/lib/transitions/collapse-transition'
 import 'font-awesome/css/font-awesome.min.css'
+import './assets/main.css'
 
 Vue.config.productionTip = false
 Vue.prototype.$ajax = axios

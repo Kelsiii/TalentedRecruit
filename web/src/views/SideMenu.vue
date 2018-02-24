@@ -2,12 +2,13 @@
 
   <el-row>
     <el-col :span="4">
-          <el-menu
-            default-active="2"
+          <el-menu id="side-menu"
             class="el-menu-vertical-demo"
-            :router="true">
+            :router="true"
+            :default-openeds="activeOpeneds"
+          >
 
-            <el-submenu index="1">
+            <el-submenu index="1" >
               <template slot="title">
                 <i class="el-icon-news"></i>
                 <span>职位</span>
@@ -57,7 +58,7 @@
                 <span slot="title">专业技能</span>
               </el-menu-item>
             </el-submenu>
-            <el-menu-item index="3">
+            <el-menu-item index="info">
               <i class="el-icon-info"></i>
               <span slot="title">企业信息</span>
             </el-menu-item>
@@ -80,9 +81,20 @@
 
 <script>
   export default {
+    data(){
+      return {
+        "activeOpeneds" : ["1","2"]
+      }
+    },
     methods: {
 
     }
   }
 </script>
+
+<style>
+  #side-menu{
+    min-height: 650px;
+  }
+</style>
 

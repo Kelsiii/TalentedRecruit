@@ -26,11 +26,9 @@
 
 <script>
   import BreadCrumb from '@/components/BreadCrumb'
-  import ElCol from "element-ui/packages/col/src/col";
 
   export default {
     components: {
-      ElCol,
       BreadCrumb
     },
     data() {
