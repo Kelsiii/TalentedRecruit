@@ -4,6 +4,7 @@ import Login from '@/views/Login'
 import SideMenu from '@/views/SideMenu'
 import Setting from '@/views/Setting'
 import Info from '@/views/Info'
+import InfoEdit from '@/views/InfoEdit'
 
 Vue.use(Router)
 
@@ -24,7 +25,11 @@ export default new Router({
     }, {
       path: '/info',
       name: 'Info',
-      component: Info
+      component: Info,
+    }, {
+      path: '/info/edit',
+      name: 'InfoEdit',
+      component: InfoEdit
     }
 
       // ...其他子路由

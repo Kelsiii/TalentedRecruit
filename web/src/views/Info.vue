@@ -5,7 +5,7 @@
       <el-col :span="20">
         <div class="item-container">
           <div class="item-ltitle"><span>基本信息</span></div>
-          <el-button class="item-btn" plain icon="el-icon-edit"></el-button>
+          <el-button class="item-btn" plain icon="el-icon-edit" @click="goEdit"></el-button>
           <ul class="none-style-list">
             <li>
               <i class="fa fa-industry fa-lg"></i>
@@ -32,7 +32,7 @@
         </div>
         <div class="item-container">
           <div class="item-ltitle"><span>公司简介</span></div>
-          <el-button class="item-btn" plain icon="el-icon-edit"></el-button>
+          <el-button class="item-btn" plain icon="el-icon-edit" @click="goEdit"></el-button>
           <p id="description">
             果壳网是国内最具影响力的泛科学网络媒体，致力于提供负责任的科学、科技主题内容。<br/>
             自2010年创办以来，果壳网用有趣、多元化的方式在科普、泛知识等领域进行科学传播，吸引了大批乐于接受新知识、新观念，追求品质的科技青年。<br/>
@@ -69,6 +69,12 @@
       }
     },
     methods: {
+      goEdit() {
+        this.$router.push({
+          path: '/edit',
+          name: 'InfoEdit'
+        })
+      }
     }
   }
 

@@ -8,7 +8,7 @@
             :default-openeds="activeOpeneds"
           >
 
-            <el-submenu index="1" >
+            <el-submenu index="1" :route="{path: '/setting'}">
               <template slot="title">
                 <i class="el-icon-news"></i>
                 <span>职位</span>
@@ -39,7 +39,7 @@
 
 
             </el-submenu>
-            <el-submenu index="2">
+            <el-submenu index="2" :route="{path: '/setting'}">
               <template slot="title">
                 <i class="el-icon-document"></i>
                 <span>试题</span>
@@ -58,11 +58,11 @@
                 <span slot="title">专业技能</span>
               </el-menu-item>
             </el-submenu>
-            <el-menu-item index="info">
+            <el-menu-item index="info" :route="{path: '/info'}">
               <i class="el-icon-info"></i>
               <span slot="title">企业信息</span>
             </el-menu-item>
-            <el-menu-item index="setting">
+            <el-menu-item index="setting" :route="{path: '/setting'}">
               <i class="el-icon-setting"></i>
               <span slot="title">账号设置</span>
             </el-menu-item>
