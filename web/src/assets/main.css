@@ -56,3 +56,13 @@
 .el-select{
   width: 100%;
 }
+
+.pagination{
+  margin: 20px 0;
+  text-align: center;
+}
+
+.table-link{
+  text-decoration: none;
+  color: #606266
+}

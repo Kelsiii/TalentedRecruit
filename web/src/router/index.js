@@ -5,6 +5,7 @@ import SideMenu from '@/views/SideMenu'
 import Setting from '@/views/Setting'
 import Info from '@/views/Info'
 import InfoEdit from '@/views/InfoEdit'
+import PositionList from '@/views/PositionList'
 
 Vue.use(Router)
 
@@ -30,6 +31,10 @@ export default new Router({
       path: '/info/edit',
       name: 'InfoEdit',
       component: InfoEdit
+    }, {
+      path: '/position/:type/:status',
+      name: 'PositionList',
+      component: PositionList
     }
 
       // ...其他子路由

@@ -16,22 +16,22 @@
 
               <el-menu-item-group>
                 <template slot="title">社会招聘</template>
-                <el-menu-item index="1-1">
+                <el-menu-item index="position/social/underway" :route="{path: '/position/social/underway'}">
                   <i class="el-icon-time"></i>
                   <span slot="title">正在招聘</span>
                 </el-menu-item>
-                <el-menu-item index="1-1">
+                <el-menu-item index="position/social/closed" :route="{path: '/position/social/closed'}">
                   <i class="el-icon-circle-close"></i>
                   <span slot="title">过期职位</span>
                 </el-menu-item>
               </el-menu-item-group>
               <el-menu-item-group>
                 <template slot="title">校园招聘</template>
-                <el-menu-item index="1-1">
+                <el-menu-item index="position/campus/underway" :route="{path: '/position/campus/underway'}">
                   <i class="el-icon-time"></i>
                   <span slot="title">正在招聘</span>
                 </el-menu-item>
-                <el-menu-item index="1-1">
+                <el-menu-item index="position/campus/closed" :route="{path: '/position/campus/closed'}">
                   <i class="el-icon-circle-close"></i>
                   <span slot="title">过期职位</span>
                 </el-menu-item>
