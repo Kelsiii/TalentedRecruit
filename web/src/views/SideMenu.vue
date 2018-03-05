@@ -8,7 +8,7 @@
             :default-openeds="activeOpeneds"
           >
 
-            <el-submenu index="1" :route="{path: '/setting'}">
+            <el-submenu index="position" >
               <template slot="title">
                 <i class="el-icon-news"></i>
                 <span>职位</span>
@@ -39,23 +39,27 @@
 
 
             </el-submenu>
-            <el-submenu index="2" :route="{path: '/setting'}">
+            <el-submenu index="question" >
               <template slot="title">
                 <i class="el-icon-document"></i>
                 <span>试题</span>
               </template>
 
-              <el-menu-item index="1-1">
+              <el-menu-item index="questionlist/personality" :route="{path: '/questionlist/personality'}">
                 <i class="fa fa-users fa-lg"></i>
                 <span slot="title">性格测试</span>
               </el-menu-item>
-              <el-menu-item index="1-1">
+              <el-menu-item index="questionlist/logic" :route="{path: '/questionlist/logic'}">
                 <i class="fa fa-bar-chart fa-lg"></i>
                 <span slot="title">数理逻辑</span>
               </el-menu-item>
-              <el-menu-item index="1-1">
+              <el-menu-item index="questionlist/professionalism" :route="{path: '/questionlist/professionalism'}">
                 <i class="fa fa-check-square-o fa-lg"></i>
                 <span slot="title">专业技能</span>
+              </el-menu-item>
+              <el-menu-item index="question/add" :route="{path: '/question/add/new'}">
+                <i class="fa fa-plus-square fa-lg"></i>
+                <span slot="title">添加试题</span>
               </el-menu-item>
             </el-submenu>
             <el-menu-item index="info" :route="{path: '/info'}">
@@ -83,7 +87,7 @@
   export default {
     data(){
       return {
-        "activeOpeneds" : ["1","2"]
+        "activeOpeneds" : ["question","position"]
       }
     },
     methods: {

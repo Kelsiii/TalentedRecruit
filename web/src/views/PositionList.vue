@@ -73,14 +73,11 @@
           subtitle: '首页',
           path: '/dashboard'
         },{
-          subtitle: '职位',
-          path: '/'
+          subtitle: '职位'
         },{
-          subtitle: recruit_type,
-          path: '/'
+          subtitle: recruit_type
         },{
-          subtitle: recruit_status,
-          path: '/'
+          subtitle: recruit_status
         }]
       }
     },

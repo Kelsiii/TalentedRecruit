@@ -34,6 +34,7 @@
   border: none;
 }
 
+
 .item-container {
   position: relative;
   width: 100%;
@@ -65,4 +66,23 @@
 .table-link{
   text-decoration: none;
   color: #606266
+}
+
+.item-delete-btn {
+  position: absolute;
+  top: -3px;
+  right: -30px;
+  padding-right: 0px;
+  font-size: 20px;
+  border: none;
+  color: #F56C6C;
+}
+.item-delete-btn :hover {
+  color: #F56C6C;
+}
+.item-delete-btn :active {
+  color: #F56C6C;
+}
+.item-delete-btn :focus {
+  color: #F56C6C;
 }

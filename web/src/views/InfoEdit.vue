@@ -2,8 +2,8 @@
   <div class="main-part">
     <bread-crumb :items="bread_items"></bread-crumb>
     <el-row>
-      <el-col :span="12">
-        <el-form ref="form" :model="form" label-width="80px">
+      <el-col :span="16">
+        <el-form ref="form" :model="form" label-width="80px" style="padding:20px 0">
           <el-form-item label="所属行业">
             <el-input v-model="form.industry"></el-input>
           </el-form-item>
@@ -91,6 +91,10 @@
           path: '/info',
           name: 'Info'
         })
+      },
+
+      submitForm(){
+
       }
     }
   }
@@ -99,6 +103,6 @@
 
 <style>
   #description-edit textarea{
-    min-height: 350px !important;
+    min-height: 300px !important;
   }
 </style>
