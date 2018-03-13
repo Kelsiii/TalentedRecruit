@@ -2,10 +2,11 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Login from '@/views/Login'
 import SideMenu from '@/views/SideMenu'
-import Setting from '@/views/Setting'
-import Info from '@/views/Info'
-import InfoEdit from '@/views/InfoEdit'
-import PositionList from '@/views/PositionList'
+import Setting from '@/views/info/Setting'
+import Info from '@/views/info/Info'
+import InfoEdit from '@/views/info/InfoEdit'
+import PositionList from '@/views/position/PositionList'
+import PositionOperate from '@/views/position/Operate'
 import QuestionList from '@/views/question/QuestionList'
 import QuestionOperate from '@/views/question/Operate'
 
@@ -34,9 +35,13 @@ export default new Router({
       name: 'InfoEdit',
       component: InfoEdit
     }, {
-      path: '/position/:type/:status',
+      path: '/positionlist/:type/:status',
       name: 'PositionList',
       component: PositionList
+    }, {
+      path: '/position/:operation/:id',
+      name: 'PositionOperate',
+      component: PositionOperate
     }, {
       path: '/questionlist/:type',
       name: 'QuestionList',

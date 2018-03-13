@@ -101,8 +101,3 @@
 
 </script>
 
-<style>
-  #description-edit textarea{
-    min-height: 300px !important;
-  }
-</style>

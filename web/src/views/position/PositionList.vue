@@ -5,7 +5,6 @@
       :data="tableData"
       stripe
       style="width: 100%"
-      @row-click = "handleCheck"
     >
       <el-table-column
         prop="date"
@@ -36,6 +35,10 @@
             size="mini"
             @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
           <el-button
+            size="mini"
+            @click="handleEdit(scope.$index, scope.row)">查看</el-button>
+          <el-button
+            v-if="status == 'underway'"
             size="mini"
             type="danger"
             @click="handleDelete(scope.$index, scope.row)">结束招聘</el-button>
@@ -79,6 +82,7 @@
         },{
           subtitle: recruit_status
         }]
+        this.status = this.$route.params.status
       }
     },
     data() {
@@ -86,6 +90,7 @@
       let recruit_status = this.$route.params.status == 'underway' ? '正在招聘' : '过期职位'
 
       return {
+        status: this.$route.params.status,
         bread_items: [
           {
             subtitle: '首页',
@@ -128,6 +133,7 @@
     methods: {
       handleEdit(index, row) {
         console.log(index, row);
+        this.$router.push({ path: `/position/edit/${row.id}` })
       },
       handleDelete(index, row) {
         console.log(index, row);
@@ -141,9 +147,6 @@
       },
       handlePageChange(currentPage){
         console.log(currentPage)
-      },
-      handleCheck(row){
-        console.log(row)
       }
     }
   }

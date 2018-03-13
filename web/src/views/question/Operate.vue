@@ -11,7 +11,7 @@
               <el-option label="专业技能" value="professionalism"></el-option>
             </el-select>
           </el-form-item>
-          <el-form-item id="description-edit" label="试题内容">
+          <el-form-item label="试题内容">
             <el-input type="textarea"  v-model="form.content"></el-input>
           </el-form-item>
 

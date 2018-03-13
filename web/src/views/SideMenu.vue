@@ -14,24 +14,29 @@
                 <span>职位</span>
               </template>
 
+              <el-menu-item index="position/add" :route="{path: '/position/add/new'}">
+                <i class="fa fa-plus-square fa-lg"></i>
+                <span slot="title">添加职位</span>
+              </el-menu-item>
+
               <el-menu-item-group>
                 <template slot="title">社会招聘</template>
-                <el-menu-item index="position/social/underway" :route="{path: '/position/social/underway'}">
+                <el-menu-item index="positionlist/social/underway" :route="{path: '/positionlist/social/underway'}">
                   <i class="el-icon-time"></i>
                   <span slot="title">正在招聘</span>
                 </el-menu-item>
-                <el-menu-item index="position/social/closed" :route="{path: '/position/social/closed'}">
+                <el-menu-item index="positionlist/social/closed" :route="{path: '/positionlist/social/closed'}">
                   <i class="el-icon-circle-close"></i>
                   <span slot="title">过期职位</span>
                 </el-menu-item>
               </el-menu-item-group>
               <el-menu-item-group>
                 <template slot="title">校园招聘</template>
-                <el-menu-item index="position/campus/underway" :route="{path: '/position/campus/underway'}">
+                <el-menu-item index="positionlist/campus/underway" :route="{path: '/positionlist/campus/underway'}">
                   <i class="el-icon-time"></i>
                   <span slot="title">正在招聘</span>
                 </el-menu-item>
-                <el-menu-item index="position/campus/closed" :route="{path: '/position/campus/closed'}">
+                <el-menu-item index="positionlist/campus/closed" :route="{path: '/positionlist/campus/closed'}">
                   <i class="el-icon-circle-close"></i>
                   <span slot="title">过期职位</span>
                 </el-menu-item>
