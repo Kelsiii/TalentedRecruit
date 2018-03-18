@@ -36,7 +36,7 @@
             @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
           <el-button
             size="mini"
-            @click="handleEdit(scope.$index, scope.row)">查看</el-button>
+            @click="handleCheck(scope.$index, scope.row)">查看</el-button>
           <el-button
             v-if="status == 'underway'"
             size="mini"
@@ -134,6 +134,10 @@
       handleEdit(index, row) {
         console.log(index, row);
         this.$router.push({ path: `/position/edit/${row.id}` })
+      },
+      handleCheck(index, row) {
+        console.log(index, row);
+        this.$router.push({ path: `/position-detail/${row.id}` })
       },
       handleDelete(index, row) {
         console.log(index, row);

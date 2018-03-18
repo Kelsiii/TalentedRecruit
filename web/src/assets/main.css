@@ -45,13 +45,16 @@
 }
 
 .none-style-list{
-  list-style-type:none;
   font-size: 0.875em;
 }
 
 .none-style-list li{
-  line-height: 1em;
+  margin-left: 30px;
   margin-bottom: 20px;
+}
+
+.none-style-list span{
+  margin-left: 20px;
 }
 
 .el-select{

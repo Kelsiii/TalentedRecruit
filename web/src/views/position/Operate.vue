@@ -34,6 +34,29 @@
             </el-select>
           </el-form-item>
 
+          <el-form-item label="职位标签">
+          <el-tag
+            :key="tag"
+            v-for="tag in form.tags"
+            closable
+            :disable-transitions="false"
+            @close="handleClose(tag)">
+            {{tag}}
+          </el-tag>
+          <el-input
+            class="input-new-tag"
+            v-if="inputVisible"
+            v-model="inputValue"
+            ref="saveTagInput"
+            size="small"
+            @keyup.enter.native="handleInputConfirm"
+            @blur="handleInputConfirm"
+          >
+          </el-input>
+
+          <el-button v-else class="button-new-tag" size="small" @click="showInput">+ New Tag</el-button>
+          </el-form-item>
+
           <el-form-item
             v-if="form.examination.required == '0'"
           >
@@ -70,6 +93,24 @@
   </div>
 </template>
 
+<style>
+  .el-tag + .el-tag {
+    margin-left: 10px;
+  }
+  .button-new-tag {
+    margin-left: 10px;
+    height: 32px;
+    line-height: 30px;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+  .input-new-tag {
+    width: 90px;
+    margin-left: 10px;
+    vertical-align: bottom;
+  }
+</style>
+
 <script>
   import BreadCrumb from '@/components/BreadCrumb'
 
@@ -98,6 +139,8 @@
     data() {
       let operation = this.$route.params.operation == 'add' ? '添加职位' : '编辑职位'
       return {
+        inputVisible: false,
+        inputValue: '',
         bread_items: [
           {
             subtitle: '首页',
@@ -123,7 +166,7 @@
           "valid":"1",
           "datetime":"2018-01-30 18:51:23",
           "salary":"面议",
-          "tags":"UI;设计;Web;交互",
+          "tags":["UI","设计","Web","交互"],
           "examination":{
             "required": 1,
             "distribution":[{
@@ -158,6 +201,26 @@
 
       removeExamination() {
         this.form.examination.required = 0;
+      },
+
+      handleClose(tag) {
+        this.form.tags.splice(this.form.tags.indexOf(tag), 1);
+      },
+
+      showInput() {
+        this.inputVisible = true;
+        this.$nextTick(_ => {
+          this.$refs.saveTagInput.$refs.input.focus();
+        });
+      },
+
+      handleInputConfirm() {
+        let inputValue = this.inputValue;
+        if (inputValue) {
+          this.form.tags.push(inputValue);
+        }
+        this.inputVisible = false;
+        this.inputValue = '';
       },
 
       labelCN(label){

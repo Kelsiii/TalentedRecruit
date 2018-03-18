@@ -6,25 +6,25 @@
         <div class="item-container">
           <div class="item-ltitle"><span>基本信息</span></div>
           <el-button class="item-btn" plain icon="el-icon-edit" @click="goEdit"></el-button>
-          <ul class="none-style-list">
+          <ul class="none-style-list fa-ul">
             <li>
-              <i class="fa fa-industry fa-lg"></i>
+              <i class="fa fa-li fa-industry fa-lg"></i>
               <span slot="title">移动互联网,社交网络</span>
             </li>
             <li>
-              <i class="fa fa-flag-o fa-lg"></i>
+              <i class="fa fa-li fa-map-marker fa-lg"></i>
               <span slot="title">北京</span>
             </li>
             <li>
-              <i class="fa fa-group fa-lg"></i>
+              <i class="fa fa-li fa-group fa-lg"></i>
               <span slot="title">150-500人</span>
             </li>
             <li>
-              <i class="fa fa-line-chart fa-lg"></i>
+              <i class="fa fa-li fa-line-chart fa-lg"></i>
               <span slot="title">C轮</span>
             </li>
             <li>
-              <i class="fa fa-university fa-lg"></i>
+              <i class="fa fa-li fa-university fa-lg"></i>
               <span slot="title">北京朝阳区郎家园六号院3号楼4层</span>
             </li>
 

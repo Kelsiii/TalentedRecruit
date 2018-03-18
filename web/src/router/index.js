@@ -7,6 +7,7 @@ import Info from '@/views/info/Info'
 import InfoEdit from '@/views/info/InfoEdit'
 import PositionList from '@/views/position/PositionList'
 import PositionOperate from '@/views/position/Operate'
+import PostitionDetail from '@/views/position/Detail'
 import QuestionList from '@/views/question/QuestionList'
 import QuestionOperate from '@/views/question/Operate'
 
@@ -42,6 +43,10 @@ export default new Router({
       path: '/position/:operation/:id',
       name: 'PositionOperate',
       component: PositionOperate
+    }, {
+      path: '/position-detail/:id',
+      name: 'PositionDetail',
+      component: PostitionDetail
     }, {
       path: '/questionlist/:type',
       name: 'QuestionList',
