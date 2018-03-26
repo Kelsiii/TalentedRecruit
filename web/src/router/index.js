@@ -12,6 +12,9 @@ import QuestionList from '@/views/question/QuestionList'
 import QuestionOperate from '@/views/question/Operate'
 import CVDetail from '@/views/cv/Detail'
 import Robot from '@/views/Robot'
+import PositionDetailMobile from '@/views/position/DetailMobile'
+import Examination from '@/views/question/ExamMobile'
+import CVInput from '@/views/cv/InputMobile'
 
 
 
@@ -67,9 +70,21 @@ export default new Router({
 
       // ...其他子路由
     ]
-  },{
-    path: '/robot',
+  }, {
+    path: '/mobile/chat',
     name: 'Robot',
     component: Robot
-  },]
+  }, {
+    path: '/mobile/position/:id',
+    name: 'Position',
+    component: PositionDetailMobile
+  }, {
+    path: '/mobile/examination/:position_id',
+    name: 'Examination',
+    component: Examination
+  }, {
+    path: '/mobile/cvinput/:position_id',
+    name: 'CVInput',
+    component: CVInput
+  }]
 })

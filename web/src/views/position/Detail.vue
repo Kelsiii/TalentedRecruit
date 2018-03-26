@@ -24,6 +24,10 @@
               <span>{{form.education}}</span>
             </li>
             <li>
+              <i class="fa fa-li fa-black-tie fa-lg fa-fw"></i>
+              <span>{{form.experience}}</span>
+            </li>
+            <li>
               <i class="fa fa-li fa-dollar fa-lg fa-fw"></i>
               <span>{{form.salary}}</span>
             </li>

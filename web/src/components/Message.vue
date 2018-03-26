@@ -49,7 +49,6 @@
     border:2px solid;
     border-radius:5px;
     max-width: 60%;
-    min-height: 30px;
     padding: 10px;
 
     border-color: #c8c8c8;

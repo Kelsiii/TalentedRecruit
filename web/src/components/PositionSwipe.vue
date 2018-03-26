@@ -23,6 +23,7 @@
     methods: {
       onItemClick(item) {
         console.log('click item:', item)
+        this.$router.push({ path: `/mobile/position/${item.id}` })
       },
     },
     data() {

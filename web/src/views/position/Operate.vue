@@ -23,6 +23,9 @@
           <el-form-item label="学历要求">
             <el-input v-model="form.education"></el-input>
           </el-form-item>
+          <el-form-item label="工作经验">
+            <el-input v-model="form.experience"></el-input>
+          </el-form-item>
 
           <el-form-item label="薪资待遇">
             <el-input v-model="form.salary"></el-input>
