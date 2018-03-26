@@ -70,7 +70,7 @@
     methods: {
       handleCheck(index, row) {
         console.log(index, row);
-        //this.$router.push({ path: `/position-detail/${row.id}` })
+        this.$router.push({ path: `/cvs/${row.id}` })
       },
       formatter(row, column) {
         return row.checked == 0 ? '否':'是';

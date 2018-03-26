@@ -11,12 +11,16 @@ import 'element-ui/lib/theme-chalk/base.css'
 import CollapseTransition from 'element-ui/lib/transitions/collapse-transition'
 import 'font-awesome/css/font-awesome.min.css'
 import './assets/main.css'
+import Cube from 'cube-ui'
+
+
 
 Vue.config.productionTip = false
 Vue.prototype.$ajax = axios
 global.router = router;
 
 Vue.use(ElementUI);
+Vue.use(Cube);
 Vue.component(CollapseTransition.name, CollapseTransition)
 
 new Vue({

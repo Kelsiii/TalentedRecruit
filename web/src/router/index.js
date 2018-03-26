@@ -10,6 +10,10 @@ import PositionOperate from '@/views/position/Operate'
 import PostitionDetail from '@/views/position/Detail'
 import QuestionList from '@/views/question/QuestionList'
 import QuestionOperate from '@/views/question/Operate'
+import CVDetail from '@/views/cv/Detail'
+import Robot from '@/views/Robot'
+
+
 
 Vue.use(Router)
 
@@ -55,9 +59,17 @@ export default new Router({
       path: '/question/:operation/:id',
       name: 'QuestionOperate',
       component: QuestionOperate
+    }, {
+      path: '/cvs/:id',
+      name: 'CVDetail',
+      component: CVDetail
     }
 
       // ...其他子路由
     ]
-  }]
+  },{
+    path: '/robot',
+    name: 'Robot',
+    component: Robot
+  },]
 })
