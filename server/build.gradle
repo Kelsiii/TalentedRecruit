@@ -40,6 +40,8 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-data-rest")
     compile("org.springframework.boot:spring-boot-starter-data-mongodb")
     compile("org.springframework.boot:spring-boot-starter-web")
+    compile("com.google.code.gson:gson:2.8.2")
+    compile("net.sf.json-lib:json-lib:2.4:jdk15")
     testCompile('org.springframework.boot:spring-boot-starter-test')
 
 }

@@ -7,7 +7,7 @@
       style="width: 100%"
     >
       <el-table-column
-        prop="date"
+        prop="datetime"
         label="更新日期"
         sortable
         width="180">
@@ -32,6 +32,7 @@
       <el-table-column label="操作">
         <template slot-scope="scope">
           <el-button
+            v-if="status == 'underway'"
             size="mini"
             @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
           <el-button
@@ -83,6 +84,11 @@
           subtitle: recruit_status
         }]
         this.status = this.$route.params.status
+
+        let campus = this.$route.params.type == 'campus' ? 1 : 0
+        let valid = this.$route.params.status == 'underway' ? 1 : 0
+        this.loadData(1,campus,valid)
+
       }
     },
     data() {
@@ -103,44 +109,61 @@
             subtitle: recruit_status
           }
         ],
-        tableData: [{
-          date: '2016-05-02',
-          name: 'UI设计师',
-          address: '上海市普陀区金沙江路 1518 弄',
-          id: 'unused',
-          type: '全职'
-        }, {
-          date: '2016-05-04',
-          name: 'UI设计师',
-          address: '上海市普陀区金沙江路 1517 弄',
-          type: '全职'
-        }, {
-          date: '2016-05-01',
-          name: 'UI设计师',
-          address: '上海市普陀区金沙江路 1519 弄',
-          type: '全职'
-        }, {
-          date: '2016-05-03',
-          name: 'UI设计师',
-          address: '上海市普陀区金沙江路 1516 弄',
-          type: '全职'
-        }],
-        total: 57,
+        tableData: [],
+        total: 0,
         count: 10
 
       }
     },
+
+    created(){
+      let campus = this.$route.params.type == 'campus' ? 1 : 0
+      let valid = this.$route.params.status == 'underway' ? 1 : 0
+
+      this.loadData(1,campus,valid)
+    },
+
     methods: {
       handleEdit(index, row) {
-        console.log(index, row);
+        //console.log(index, row);
         this.$router.push({ path: `/position/edit/${row.id}` })
       },
       handleCheck(index, row) {
-        console.log(index, row);
+        //console.log(index, row);
         this.$router.push({ path: `/position-detail/${row.id}` })
       },
       handleDelete(index, row) {
-        console.log(index, row);
+        let form = row
+        form.valid = 0
+        this.$ajax({
+          url:'/api/position/update',
+          method:'post',
+          data: {
+            id: form.id,
+            company_id: form.company_id,
+            name: form.name,
+            description: form.description,
+            address: form.address,
+            experience: form.experience,
+            education: form.education,
+            type: form.type,
+            campus: form.campus,
+            valid: form.valid,
+            salary: form.salary,
+            tags: form.tags
+          }
+        }).then((res) =>{
+          let data = res.data
+          if(data.result == 1){
+            this.$router.push({
+              path: '/dashboard'
+            })
+          } else{
+            alert(data.msg)
+          }
+        }).catch(function (err) {
+          alert('发生错误，请刷新后重试！');
+        })
       },
       formatter(row, column) {
         return row.address;
@@ -151,6 +174,42 @@
       },
       handlePageChange(currentPage){
         console.log(currentPage)
+        let campus = this.$route.params.type == 'campus' ? 1 : 0
+        let valid = this.$route.params.status == 'underway' ? 1 : 0
+        this.loadData(currentPage,campus,valid)
+      },
+
+      loadData(page,campus,valid){
+        this.$ajax({
+          url: '/api/position/list',
+          method: 'post',
+          data: {
+            company_id: sessionStorage.getItem("companyId"),
+            page: page,
+            count: 10,
+            campus: campus,
+            valid: valid
+          }
+        }).then((res) =>{
+          let data = res.data
+          if(data.result == 1){
+            this.total = data.total
+            this.count = data.count
+
+            let tableData = [];
+            data.positions.forEach((item, i) => {
+              let position = JSON.parse(item);
+              tableData.push(position)
+            });
+
+            this.tableData = tableData;
+
+          } else{
+            alert(data.msg)
+          }
+        }).catch(function (err) {
+          alert('发生错误，请刷新后重试！');
+        })
       }
     }
   }

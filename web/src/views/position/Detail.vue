@@ -43,11 +43,9 @@
           </ul>
         </div>
         <div class="item-container">
-          <div class="item-ltitle"><span>职位要求</span></div>
+          <div class="item-ltitle"><span>职位描述</span></div>
           <el-button class="item-btn" icon="el-icon-edit" @click="goEdit"></el-button>
-          <p id="description">
-            {{form.description}}
-          </p>
+          <p id="description" v-html="form.description"></p>
         </div>
 
         <div class="item-container">
@@ -79,38 +77,21 @@
           },
           {
             subtitle: '职位'
-          },
-          {
-            subtitle: 'UI设计师'
           }
         ],
         form: {
-          "id":"position1",
-          "company_id":"company1",
-          "name":"UI设计师",
-          "description":"1. 能独立负责app和网页的 UE/UI 以及平面设计；2. 熟悉 Apple 的HIG，安卓的material design；3. 熟悉 Sketch, AI, Photoshop 等设计软件",
-          "address":"上海-浦东新区",
-          "experience":"3-5年工作经验",
-          "education":"本科及以上",
-          "type":"实习",
-          "campus":"0",
-          "valid":"1",
-          "datetime":"2018-01-30 18:51:23",
-          "salary":"面议",
-          "tags":["UI","设计","Web","交互"],
-          "examination":{
-            "required": 1,
-            "distribution":[{
-              "type":"personality",
-              "num":"5"
-            },{
-              "type":"logic",
-              "num":"5"
-            },{
-              "type":"professionalism",
-              "num":"10"
-            }]
-          }
+          "name":"",
+          "description":"",
+          "address":"",
+          "experience":"",
+          "education":"",
+          "type":"",
+          "campus":"",
+          "valid":1,
+          "datetime":"",
+          "salary":"",
+          "tags":[],
+          "examination":{}
         },
         cv_info:{
           tableData: [{
@@ -155,10 +136,46 @@
         },
       }
     },
+    created(){
+      let position_id = this.$route.params.id;
+      this.$ajax({
+        url: '/api/position/get',
+        method: 'post',
+        data: {
+          company_id: sessionStorage.getItem("companyId"),
+          id: position_id
+        }
+      }).then((res) =>{
+        let data = res.data
+        if(data.result == 1){
+          let position = JSON.parse(data.position[0]);
+          this.form.id = position_id;
+          this.form.name = position.name;
+          this.form.description = position.description;
+          this.form.address = position.address;
+          this.form.experience = position.experience;
+          this.form.education = position.education;
+          this.form.type = position.type;
+          this.form.campus = position.campus.toString();
+          this.form.salary = position.salary;
+          this.form.tags = position.tags.split(";");
+          this.bread_items.push(
+            {subtitle: position.name }
+          )
+        } else{
+          alert(data.msg)
+        }
+
+      }).catch(function (err) {
+        console.log(err)
+        alert('发生错误，请刷新后重试！');
+      })
+
+    },
     methods: {
       goEdit() {
         this.$router.push({
-          path: `/position/edit/${this.form.id}`
+          path: `/position/edit/${this.$route.params.id}`
         })
       }
     }
