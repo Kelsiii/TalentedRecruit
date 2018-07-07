@@ -35,4 +35,33 @@ public class Company {
         String json = gson.toJson(this);
         return json;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getIndustry() {
+        return industry;
+    }
+
+    public String getProcess() {
+        return process;
+    }
+
+    public String getScale() {
+        return scale;
+    }
+
 }

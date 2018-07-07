@@ -37,8 +37,6 @@
     },
     methods: {
       submitForm() {
-        //console.log(this.formData)
-
         this.$ajax({
           url:'/api/account/login',
           method:'post',
@@ -49,10 +47,10 @@
         }).then((res) =>{
           let data = res.data
           if(data.result == 1){
-            sessionStorage.setItem('userId', this.formData.id);
+            sessionStorage.setItem('account', data.user_id);
             sessionStorage.setItem('companyId', data.company_id);
             this.$router.push({
-              path: '/dashboard'
+              path: '/position/add/new'
             })
           } else{
             alert(data.msg)

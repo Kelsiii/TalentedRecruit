@@ -30,7 +30,7 @@
       </cube-select>
 
     </form>
-    <cube-button id="form-submit-btn">提交</cube-button>
+    <cube-button id="form-submit-btn" @click="submitHandler">提交</cube-button>
   </div>
 
 </template>
@@ -48,6 +48,45 @@
         experienceOptions:['无','1年以下','3-5年','5-10年','10年以上'],
         education:"",
         educationOptions:['大专及以下','本科','硕士','博士']
+      }
+    },
+
+    methods: {
+      submitHandler(){
+        this.$ajax({
+          url:'/api/cv/submit',
+          method:'post',
+          data: {
+            company_id: this.$route.params.company_id,
+            position_id: this.$route.params.position_id,
+            name: this.name,
+            gender: this.gender,
+            tel: this.tel,
+            education: this.education,
+            email: this.email,
+            experience: this.experience
+          }
+        }).then((res) =>{
+          let data = res.data
+          if(data.result == 1){
+            this.showAlert("投递成功！","")
+            this.$router.push({
+              path: `/${this.$route.params.company_id}/mobile/chat`
+            })
+          } else{
+            this.showAlert("Error",data.msg)
+          }
+        }).catch(function (err) {
+          this.showAlert("Error","发生错误，请刷新后重试！")
+        })
+      },
+      showAlert(title,text) {
+        this.$createDialog({
+          type: 'alert',
+          title: title,
+          content: text,
+          icon: 'cubeic-alert'
+        }).show()
       }
     }
 

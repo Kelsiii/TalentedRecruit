@@ -20,6 +20,7 @@ public class AccountController {
 
     @RequestMapping(value="/add",method= {RequestMethod.POST})
     public Map<String,Object> addMethod(@RequestBody JSONObject jsonObject) {
+
         String id = jsonObject.getString("id");
         String name = jsonObject.getString("name");
         String company_id = jsonObject.getString("company_id");
@@ -42,7 +43,6 @@ public class AccountController {
     public Map<String,Object> loginMethod(@RequestBody JSONObject jsonObject) {
         String id = jsonObject.getString("id");
         String pwd = jsonObject.getString("pwd");
-        System.out.println(id+" "+pwd);
         Map<String, Object> response = new LinkedHashMap<>();
         try {
             boolean success = this.accountService.login(id, pwd);
@@ -50,6 +50,7 @@ public class AccountController {
                 User user = this.accountService.findUser(id);
                 response.put("result", 1);
                 response.put("company_id", user.getCompany());
+                response.put("user_id", id);
             } else {
                 response.put("result", 0);
                 response.put("msg", "密码错误");
@@ -62,7 +63,7 @@ public class AccountController {
         return response;
     }
 
-    @RequestMapping(value="/psw/update",method= {RequestMethod.POST})
+    @RequestMapping(value="/pwd/update",method= {RequestMethod.POST})
     public Map<String,Object> pwdUpdateMethod(@RequestBody JSONObject jsonObject) {
         String id = jsonObject.getString("id");
         String pwd_old = jsonObject.getString("pwd_old");

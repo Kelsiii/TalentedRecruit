@@ -29,6 +29,7 @@ public class CompanyController {
         String scale = jsonObject.getString("scale");
         String process = jsonObject.getString("process");
         String description = jsonObject.getString("description");
+        description = description.replaceAll("\n","</br>");
 
         Company company = new Company(id,name,address,industry,city,scale,process,description);
 

@@ -35,10 +35,11 @@
               <i class="fa fa-li fa-bank fa-lg fa-fw"></i>
               <span>{{form.campus == 1 ? "校园招聘": "社会招聘"}}</span>
             </li>
+            <!---
             <li>
               <i class="fa fa-li fa-clipboard fa-lg fa-fw"></i>
                 <span>{{form.examination.required == 1 ? "需要在线笔试": "不需在线笔试"}}</span>
-            </li>
+            </li> --->
 
           </ul>
         </div>
@@ -94,88 +95,93 @@
           "examination":{}
         },
         cv_info:{
-          tableData: [{
-            "id":"3e91bu351",
-            "position_id":"position1",
-            "company_id":"company1",
-            "name":"张某某",
-            "gender":"男",
-            "tel":"15918274821",
-            "email":"abc@qq.com",
-            "experience":"3-5年",
-            "education":"本科",
-            "submit_time":"2018-02-04 08:31:58",
-            "checked":"0",
-          }, {
-            "id":"3e91bu351",
-            "position_id":"position1",
-            "company_id":"company1",
-            "name":"张某某",
-            "gender":"男",
-            "tel":"15918274821",
-            "email":"abc@qq.com",
-            "experience":"3-5年",
-            "education":"本科",
-            "submit_time":"2018-02-04 08:31:58",
-            "checked":"1",
-          }, {
-            "id":"3e91bu351",
-            "position_id":"position1",
-            "company_id":"company1",
-            "name":"张某某",
-            "gender":"男",
-            "tel":"15918274821",
-            "email":"abc@qq.com",
-            "experience":"3-5年",
-            "education":"本科",
-            "submit_time":"2018-02-04 08:31:58",
-            "checked":"1",
-          }],
-          total_num: 57,
-          page_count: 10
+          tableData: [],
+          total_num: 0,
+          page_count: 5
         },
       }
     },
     created(){
-      let position_id = this.$route.params.id;
-      this.$ajax({
-        url: '/api/position/get',
-        method: 'post',
-        data: {
-          company_id: sessionStorage.getItem("companyId"),
-          id: position_id
-        }
-      }).then((res) =>{
-        let data = res.data
-        if(data.result == 1){
-          let position = JSON.parse(data.position[0]);
-          this.form.id = position_id;
-          this.form.name = position.name;
-          this.form.description = position.description;
-          this.form.address = position.address;
-          this.form.experience = position.experience;
-          this.form.education = position.education;
-          this.form.type = position.type;
-          this.form.campus = position.campus.toString();
-          this.form.salary = position.salary;
-          this.form.tags = position.tags.split(";");
-          this.bread_items.push(
-            {subtitle: position.name }
-          )
-        } else{
-          alert(data.msg)
-        }
 
-      }).catch(function (err) {
-        console.log(err)
-        alert('发生错误，请刷新后重试！');
-      })
+      this.loadData()
+      this.loadCVs()
 
     },
     methods: {
       goEdit() {
         this.$router.push({
           path: `/position/edit/${this.$route.params.id}`
+        })
+      },
+
+      loadData(){
+        let position_id = this.$route.params.id;
+        this.$ajax({
+          url: '/api/position/get',
+          method: 'post',
+          data: {
+            company_id: sessionStorage.getItem("companyId"),
+            id: position_id
+          }
+        }).then((res) =>{
+          let data = res.data
+          if(data.result == 1){
+            let position = JSON.parse(data.position[0]);
+            this.form.id = position_id;
+            this.form.name = position.name;
+            this.form.description = position.description;
+            this.form.address = position.address;
+            this.form.experience = position.experience;
+            this.form.education = position.education;
+            this.form.type = position.type;
+            this.form.campus = position.campus.toString();
+            this.form.salary = position.salary;
+            this.form.tags = position.tags.split(";");
+            this.bread_items.push(
+              {subtitle: position.name }
+            )
+
+            sessionStorage.setItem('companyName', position.name);
+          } else{
+            alert(data.msg)
+          }
+
+        }).catch(function (err) {
+          console.log(err)
+          alert('发生错误，请刷新后重试！');
+        })
+      },
+
+      loadCVs(){
+        let position_id = this.$route.params.id;
+        let company_id = sessionStorage.getItem("companyId")
+
+        this.$ajax({
+          url: '/api/cv/list',
+          method: 'post',
+          data: {
+            company_id: company_id,
+            position_id: position_id,
+            page: 1,
+            count: 5
+          }
+        }).then((res) =>{
+          let data = res.data
+          let CVs = []
+          data.CVs.forEach(cv =>{
+            CVs.push(JSON.parse(cv))
+          })
+          if(data.result == 1){
+            this.cv_info.tableData = CVs;
+            this.cv_info.total_num = data.total;
+            this.cv_info.page_count = data.maxPage;
+          } else{
+            alert(data.msg)
+          }
+
+        }).catch(function (err) {
+          console.log(err)
+          alert('发生错误，请刷新后重试！');
         })
       }
     }

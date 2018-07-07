@@ -79,62 +79,28 @@
             subtitle: '职位'
           },
           {
-            subtitle: 'UI设计师',
-            path: `/position-detail/position1`
-          }, {
-            subtitle: '应聘者'
+            subtitle: sessionStorage.getItem("companyName"),
+            path: `/position-detail/${this.$route.params.position_id}`
           }
         ],
         form: {
-          "id": "3e91bu351",
-          "position_id": "position1",
-          "company_id": "company1",
-          "name": "张某某",
-          "gender": "男",
-          "tel": "15918274821",
-          "email": "abc@qq.com",
-          "experience": "3-5年",
-          "education": "本科",
-          "submit_time": "2018-02-04 08:31:58",
-          "checked": "0",
-          "examination": {
-            "answer_id": "98hebw8mqer2",
-            "submit_time": "2018-02-04 08:24:10",
-            "accuracy": [
-              {
-                "type":"total",
-                "correct":17,
-                "num":20
-              },{
-                "type":"personality",
-                "correct":5,
-                "num":5
-              },{
-                "type":"logic",
-                "correct":4,
-                "num":5
-              },{
-                "type":"professionalism",
-                "correct":8,
-                "num":10
-              }
-            ],
-            "answerSheet": [{
-              "questionID": "3bf9web3",
-              "answer": "A",
-              "correct": 1
-            }, {
-              "questionID": "8sne8xcw",
-              "answer": "D",
-              "correct": 0
-            }, {
-              "questionID": "nd2hwif5",
-              "answer": "C",
-              "correct": 1
-            }]
-          }
+          "id": "",
+          "position_id": "",
+          "company_id": "",
+          "name": "",
+          "gender": "",
+          "tel": "",
+          "email": "",
+          "experience": "",
+          "education": "",
+          "submit_time": "",
+          "checked": "",
+          "examination": {}
         }
       }
+    },
+    created(){
+      this.loadData();
     },
     methods: {
       labelCN(label){
@@ -156,7 +122,49 @@
             label_CN = ''
         }
         return label_CN
-      }
+      },
+
+      loadData(){
+        let position_id = this.$route.params.position_id;
+        let cv_id = this.$route.params.cv_id;
+        let company_id = sessionStorage.getItem("companyId")
+
+        this.$ajax({
+          url: '/api/cv/get',
+          method: 'post',
+          data: {
+            company_id: company_id,
+            id: cv_id,
+            position_id: position_id
+          }
+        }).then((res) =>{
+          let data = res.data
+          if(data.result == 1){
+            let cv = JSON.parse(data.CV[0]);
+            this.form.id = cv_id;
+            this.form.position_id = position_id;
+            this.form.company_id = company_id;
+            this.form.name = cv.name;
+            this.form.gender = cv.gender;
+            this.form.tel = cv.tel;
+            this.form.experience = cv.experience;
+            this.form.education = cv.education;
+            this.form.email = cv.email;
+            this.form.submit_time = cv.submit_time;
+            this.form.checked = cv.checked;
+            this.bread_items.push(
+              {subtitle: cv.name }
+            )
+          } else{
+            alert(data.msg)
+          }
+
+        }).catch(function (err) {
+          console.log(err)
+          alert('发生错误，请刷新后重试！');
+        })
+      },
+
     }
   }
 

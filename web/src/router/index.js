@@ -63,7 +63,7 @@ export default new Router({
       name: 'QuestionOperate',
       component: QuestionOperate
     }, {
-      path: '/cvs/:id',
+      path: '/cv/:position_id/:cv_id',
       name: 'CVDetail',
       component: CVDetail
     }
@@ -71,19 +71,19 @@ export default new Router({
       // ...其他子路由
     ]
   }, {
-    path: '/mobile/chat',
+    path: '/:company_id/mobile/chat',
     name: 'Robot',
     component: Robot
   }, {
-    path: '/mobile/position/:id',
+    path: '/:company_id/mobile/position/:position_id',
     name: 'Position',
     component: PositionDetailMobile
   }, {
-    path: '/mobile/examination/:position_id',
+    path: '/:company_id/mobile/examination/:position_id',
     name: 'Examination',
     component: Examination
   }, {
-    path: '/mobile/cvinput/:position_id',
+    path: '/:company_id/mobile/cvinput/:position_id',
     name: 'CVInput',
     component: CVInput
   }]

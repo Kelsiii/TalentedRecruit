@@ -3,9 +3,7 @@
   <div id="dialog-area">
 
     <message-dialog v-for="(item, index) in messages" v-bind:placement="item.placement">
-      <p slot="content" v-if="item.type == 'text'">
-        {{item.msg}}
-      </p>
+      <p slot="content" v-if="item.type == 'text'" v-html="item.msg"></p>
 
       <position-swipe slot="content" v-if="item.type == 'positions'" v-bind:swipeData="item.swipeData">
 
@@ -17,7 +15,8 @@
 
   <div id="input-area">
     <cube-input v-model="user_input" @keyup.enter.native="userInput"></cube-input>
-    <a v-on:click="startRecording"><i class="fa fa-microphone fa-lg" id="voice-input" ></i></a>
+    <a v-on:click ="startRecording"><i class="fa fa-microphone fa-lg" id="voice-input" ></i></a>
+
   </div>
 
 </div>
@@ -27,8 +26,14 @@
 <script>
   import MessageDialog from '@/components/Message'
   import PositionSwipe from '@/components/PositionSwipe'
+  import md5 from 'js-md5';
+ // import Base64 from 'js-base64'
+  let Base64 = require('js-base64').Base64;
+  //let test = Base64.encode("test")
+  //console.log(test)
 
   window.URL = window.URL || window.webkitURL;
+  //const socket = window.io()
 
   var H5Recorder = function (stream) {
 
@@ -152,6 +157,21 @@
       audio.src = window.URL.createObjectURL(this.getBlob());
     }
 
+    this.toBase64 = function(blob){
+      var reader = new FileReader();
+      reader.onload = function(e) {
+        var wavBase64 = e.target.result;
+        //console.log(wavBase64);  //此处输出为 wav格式的 base64 码
+        return wavBase64
+      }
+      reader.readAsDataURL(blob);
+
+      // var url = URL.createObjectURL(blob);
+      // var audio = new Audio();
+      // audio.src = url;
+      // audio.play();
+    }
+
     //上传
     this.upload = function (url, callback) {
       var fd = new FormData();
@@ -201,6 +221,8 @@
   let recording = false   // 是否正在录音
   let recognizing = false   // 是否正在语音识别
 
+  //let test = md5("test")
+  //console.log(test)
 
   export default {
     name: "Robot",
@@ -211,47 +233,7 @@
     data() {
       return {
         user_input: '',
-        messages: [{
-          placement:"left",
-          type: "text",
-          msg: "hello word"
-        }, {
-          placement:"right",
-          type: "text",
-          msg: "hello!!!"
-        },{
-          placement:"left",
-          type: "positions",
-          swipeData: [{
-            id: "position1",
-            company_id: "company1",
-            name: "UI设计师",
-            "description": "1. 能独立负责app和网页的 UE/UI 以及平面设计；2. 熟悉 Apple 的HIG，安卓的material design；3. 熟悉 Sketch, AI, Photoshop 等设计软件",
-            address: "上海-浦东新区",
-            experience: "3-5年",
-            education: "本科及以上",
-            type: "全职",
-            "campus": "0",
-            "valid": "1",
-            "datetime": "2018-01-30 18:51:23",
-            "salary": "面议",
-            "tags": "UI;设计;Web;交互",
-            "examination": {
-              "required": 1,
-              "distribution": [{
-                "type": "personality",
-                "num": "5"
-              }, {
-                "type": "logic",
-                "num": "5"
-              }, {
-                "type": "professionalism",
-                "num": "10"
-              }]
-            }
-          }]
-        }],
-
+        messages: []
       }
     },
 
@@ -262,14 +244,112 @@
           type: "text",
           msg: this.user_input
         })
+
+        let company_id = this.$route.params.company_id;
+        this.$ajax({
+          url: '/api/search/',
+          method: 'post',
+          data: {
+            company_id: company_id,
+            user_input: this.user_input
+          }
+        }).then((res) =>{
+          let data = res.data
+          if(data.result == 1){
+            if(data.type == 'text'){
+              data.content.forEach(text =>{
+                this.messages.push({
+                  placement:"left",
+                  type: "text",
+                  msg: JSON.parse(text)
+                })
+              })
+            } else {
+              let positions = []
+              data.content.forEach(text =>{
+                positions.push(JSON.parse(text))
+              })
+
+              console.log(positions)
+              this.messages.push({
+                placement:"left",
+                type: "positions",
+                swipeData: positions
+              })
+            }
+
+          } else{
+            alert(data.msg)
+          }
+
+        }).catch(function (err) {
+          console.log(err)
+          alert('发生错误，请刷新后重试！');
+        })
+
         this.user_input = ""
+
+
+
       },
 
       startRecording() {
-        H5Recorder.init(function (rec) {
-          recorder = rec
-          recorder.start()
-        })
+        if (!recording) {
+          H5Recorder.init(function (rec) {
+            recorder = rec
+            recorder.start()
+          })
+          recording = true
+        } else {
+          recording = false
+          let buffer = recorder.getBlob()
+
+          var reader = new FileReader();
+
+          let emm = this;
+          reader.onload = function(e) {
+            var wavBase64 = e.target.result;
+            //console.log(wavBase64.substring(22));  //此处输出为 wav格式的 base64 码
+
+            let x_appid = '5ab9aac4'
+            let x_param = 'eyJlbmdpbmVfdHlwZSI6ICJzbXMxNmsiLCJhdWUiOiAicmF3In0='
+            let x_time = Math.floor((new Date().getTime())/1000)
+
+            let str = x_appid + x_time + x_param
+            let x_checksum = md5(str)
+
+            emm.$ajax({
+              url: '/api/search/repost',
+              method: 'post',
+              data: {
+                audio: wavBase64.substring(22),
+                'X-Param': x_param,
+                'X-Appid': x_appid,
+                'X-CurTime': x_time,
+                'X-CheckSum': x_checksum,
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'charset': 'utf-8',
+              }
+            }).then((res) =>{
+              console.log(res)
+
+            })
+          }
+          reader.readAsDataURL(buffer);
+
+
+          //let reader = new FileReader();
+          //let str = reader.readAsDataURL(buffer)
+          //console.log(buffer)
+          //console.log(str)
+
+
+          //recorder.play()
+/*
+
+*/
+          //socket.emit('chat message', buffer)
+        }
       }
     },
     updated:function(){

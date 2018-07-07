@@ -9,23 +9,23 @@
           <ul class="none-style-list fa-ul">
             <li>
               <i class="fa fa-li fa-industry fa-lg"></i>
-              <span slot="title">移动互联网,社交网络</span>
+              <span>{{form.industry}}</span>
             </li>
             <li>
               <i class="fa fa-li fa-map-marker fa-lg"></i>
-              <span slot="title">北京</span>
+              <span>{{form.city}}</span>
             </li>
             <li>
               <i class="fa fa-li fa-group fa-lg"></i>
-              <span slot="title">150-500人</span>
+              <span>{{form.scale}}</span>
             </li>
             <li>
               <i class="fa fa-li fa-line-chart fa-lg"></i>
-              <span slot="title">C轮</span>
+              <span>{{form.process}}</span>
             </li>
             <li>
               <i class="fa fa-li fa-university fa-lg"></i>
-              <span slot="title">北京朝阳区郎家园六号院3号楼4层</span>
+              <span>{{form.address}}</span>
             </li>
 
           </ul>
@@ -33,13 +33,8 @@
         <div class="item-container">
           <div class="item-ltitle"><span>公司简介</span></div>
           <el-button class="item-btn" icon="el-icon-edit" @click="goEdit"></el-button>
-          <p id="description">
-            果壳网是国内最具影响力的泛科学网络媒体，致力于提供负责任的科学、科技主题内容。<br/>
-            自2010年创办以来，果壳网用有趣、多元化的方式在科普、泛知识等领域进行科学传播，吸引了大批乐于接受新知识、新观念，追求品质的科技青年。<br/>
-            除新媒体的主品牌之外，果壳网还运营果壳实验室，果壳视频，果壳创客空间等多个子品牌，以及在行、分答、饭团等一系列知识产品。<br/>
-            果壳拥有大量各领域专家资源和专业网友，并与国内外科研和学术机构保持密切合作。果壳网倡导科学、理性、积极的生活方式，并希望成为人们身边的科学生活指南。<br/>
-            现有全职员工近三百名，先后获得挚信资本、IDG和好未来三轮投资，现正处于C轮的阶段。
-          </p>
+
+          <p id="description" v-html="form.description"></p>
         </div>
 
       </el-col>
@@ -65,8 +60,20 @@
             subtitle: '企业信息',
             path: '/info'
           },
-        ]
+        ],
+        form : {
+          name: "待填写",
+          address: "待填写",
+          industry: "待填写",
+          city: "待填写",
+          scale: "待填写",
+          process: "待填写",
+          description: "待填写"
+        }
       }
+    },
+    created(){
+      this.loadData()
     },
     methods: {
       goEdit() {
@@ -74,6 +81,40 @@
           path: '/edit',
           name: 'InfoEdit'
         })
+      },
+      loadData(){
+        let company_id = sessionStorage.getItem("companyId")
+        this.$ajax({
+          url: '/api/company/get',
+          method: 'post',
+          data: {
+            id: company_id
+          }
+        }).then((res) =>{
+          let data = res.data
+          if(data.result == 1){
+            let company = JSON.parse(data.company);
+            this.form.id = company_id || "待填写"
+            this.form.name = company.name || "待填写"
+            this.form.address = company.address || "待填写"
+            this.form.industry = company.industry || "待填写"
+            this.form.city = company.city || "待填写"
+            this.form.scale = company.scale || "待填写"
+            this.form.process = company.process || "待填写"
+            this.form.description = company.description || "待填写"
+            this.bread_items.push(
+              {subtitle: company.name }
+            )
+
+          } else{
+            alert(data.msg)
+          }
+
+        }).catch(function (err) {
+          console.log(err)
+          alert('发生错误，请刷新后重试！');
+        })
+
       }
     }
   }

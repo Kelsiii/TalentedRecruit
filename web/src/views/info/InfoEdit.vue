@@ -34,7 +34,7 @@
             <el-input v-model="form.address"></el-input>
           </el-form-item>
           <el-form-item id="description-edit" label="公司简介">
-            <el-input type="textarea"  v-model="form.desc"></el-input>
+            <el-input type="textarea"  v-model="form.description"></el-input>
           </el-form-item>
 
           <el-form-item>
@@ -54,6 +54,9 @@
     components: {
       BreadCrumb
     },
+    created(){
+      this.loadData()
+    },
     data() {
       return {
         bread_items: [
@@ -71,17 +74,13 @@
           }
         ],
         form: {
-          name:"果壳网",
-          industry:"移动互联网,社交网络",
-          city:"北京",
-          address:"北京朝阳区郎家园六号院3号楼4层",
-          scale:"150-500人",
-          process:"C轮",
-          desc: '果壳网是国内最具影响力的泛科学网络媒体，致力于提供负责任的科学、科技主题内容。<br/>\n' +
-          '            自2010年创办以来，果壳网用有趣、多元化的方式在科普、泛知识等领域进行科学传播，吸引了大批乐于接受新知识、新观念，追求品质的科技青年。<br/>\n' +
-          '            除新媒体的主品牌之外，果壳网还运营果壳实验室，果壳视频，果壳创客空间等多个子品牌，以及在行、分答、饭团等一系列知识产品。<br/>\n' +
-          '            果壳拥有大量各领域专家资源和专业网友，并与国内外科研和学术机构保持密切合作。果壳网倡导科学、理性、积极的生活方式，并希望成为人们身边的科学生活指南。<br/>\n' +
-          '            现有全职员工近三百名，先后获得挚信资本、IDG和好未来三轮投资，现正处于C轮的阶段。'
+          name:"",
+          industry:"",
+          city:"",
+          address:"",
+          scale:"",
+          process:"",
+          description: ''
         }
       }
     },
@@ -94,6 +93,65 @@
       },
 
       submitForm(){
+        this.$ajax({
+          url:'/api/company/update',
+          method:'post',
+          data: {
+            id: sessionStorage.getItem("companyId"),
+            name: this.form.name,
+            description: this.form.description,
+            address: this.form.address,
+            industry: this.form.industry,
+            city: this.form.city,
+            scale: this.form.scale,
+            process: this.form.process
+          }
+        }).then((res) =>{
+          let data = res.data
+          if(data.result == 1){
+            this.$router.push({
+              path: '/info'
+            })
+          } else{
+            alert(data.msg)
+          }
+        }).catch(function (err) {
+          alert('发生错误，请刷新后重试！');
+        })
+      },
+
+      loadData(){
+        let company_id = sessionStorage.getItem("companyId")
+        this.$ajax({
+          url: '/api/company/get',
+          method: 'post',
+          data: {
+            id: company_id
+          }
+        }).then((res) =>{
+          let data = res.data
+          if(data.result == 1){
+            let company = JSON.parse(data.company);
+            this.form.id = company_id
+            this.form.name = company.name
+            this.form.address = company.address
+            this.form.industry = company.industry
+            this.form.city = company.city
+            this.form.scale = company.scale
+            this.form.process = company.process
+            this.form.description = company.description
+            this.bread_items.push(
+              {subtitle: company.name }
+            )
+
+          } else{
+            alert(data.msg)
+          }
+
+        }).catch(function (err) {
+          console.log(err)
+          alert('发生错误，请刷新后重试！');
+        })
 
       }
     }

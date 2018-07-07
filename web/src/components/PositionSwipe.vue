@@ -22,8 +22,7 @@
     props: ["swipeData"],
     methods: {
       onItemClick(item) {
-        console.log('click item:', item)
-        this.$router.push({ path: `/mobile/position/${item.id}` })
+        this.$router.push({ path: `/${this.$route.params.company_id}/mobile/position/${item.id}` })
       },
     },
     data() {

@@ -32,13 +32,19 @@
       BreadCrumb
     },
     data() {
+      let user_id = sessionStorage.getItem("account");
       var validateOldPass = (rule, value, callback) => {
         if (value === '') {
           callback(new Error('请输入原密码'));
-        } else {
+        }
+        else {
           this.$ajax({
-            url:'/api/login',
+            url:'/api/account/login',
             method:'post',
+            data: {
+              id: user_id,
+              pwd: value
+            }
           }).then((res) =>{
             let data = res.data
             if(data.result == 1){
@@ -50,7 +56,6 @@
           }).catch(function (err) {
             alert('发生错误，请刷新后重试！');
           })
-
         }
       };
       var validatePass = (rule, value, callback) => {
@@ -107,10 +112,27 @@
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            alert('submit!');
+            this.$ajax({
+              url:'/api/account/pwd/update',
+              method:'post',
+              data: {
+                id: sessionStorage.getItem("account"),
+                pwd_old: this.pwdForm.oldPass,
+                pwd_new: this.pwdForm.newPass
+              }
+            }).then((res) =>{
+              let data = res.data
+              if(data.result == 1){
+                alert("修改成功！")
+                this.$router.push({
+                  path: '/dashboard'
+                })
+              }
+            }).catch(function (err) {
+              alert('发生错误，请刷新后重试！');
+            })
           } else {
             console.log('error submit!!');
-            return false;
           }
         });
       },

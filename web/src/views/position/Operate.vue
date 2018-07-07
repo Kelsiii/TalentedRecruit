@@ -291,7 +291,7 @@
           let data = res.data
           if(data.result == 1){
             this.$router.push({
-              path: '/dashboard'
+              path: '/positionlist/social/underway'
             })
           } else{
             alert(data.msg)
@@ -323,7 +323,7 @@
           let data = res.data
           if(data.result == 1){
             this.$router.push({
-              path: '/dashboard'
+              path: '/positionlist/social/underway'
             })
           } else{
             alert(data.msg)

@@ -46,4 +46,16 @@ public class Position {
         String json = gson.toJson(this);
         return json;
     }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getTags() {
+        return tags;
+    }
 }

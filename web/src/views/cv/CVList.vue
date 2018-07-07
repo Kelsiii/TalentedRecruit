@@ -69,8 +69,33 @@
     props: ["tableData","total","count"],
     methods: {
       handleCheck(index, row) {
-        console.log(index, row);
-        this.$router.push({ path: `/cvs/${row.id}` })
+
+        let position_id = this.$route.params.id;
+        let company_id = sessionStorage.getItem("companyId")
+        let cv_id = row.id
+
+        this.$ajax({
+          url: '/api/cv/check',
+          method: 'post',
+          data: {
+            id: cv_id,
+            company_id: company_id,
+            position_id: position_id
+          }
+        }).then((res) =>{
+          let data = res.data
+          if(data.result == 1){
+
+            this.$router.push({ path: `/cv/${position_id}/${row.id}` })
+          } else{
+            alert(data.msg)
+          }
+        }).catch(function (err) {
+          console.log(err)
+          alert('发生错误，请刷新后重试！');
+        })
+
+
       },
       formatter(row, column) {
         return row.checked == 0 ? '否':'是';

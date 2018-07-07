@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 @Repository
 public class PositionDao {
@@ -58,8 +59,12 @@ public class PositionDao {
 
         Query query=new BasicQuery(obj);
 
-        query.limit((Integer) filter.get("count"));
-        query.skip((Integer) filter.get("page")-1);
+        if(filter.get("count")!= null){
+            query.limit((Integer) filter.get("count"));
+        }
+        if(filter.get("page")!=null){
+            query.skip((Integer) filter.get("page")-1);
+        }
         query.with(new Sort(Sort.Direction.DESC, "datetime"));
 
         return this.mongoTemplate.find(query, Position.class);
@@ -82,4 +87,5 @@ public class PositionDao {
 
         return this.mongoTemplate.count(query, Position.class);
     }
+
 }
